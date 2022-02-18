@@ -45,7 +45,10 @@ func main() {
 	foo.Critical = false
 	// whoop whoop whoop.... here comes the money shot...
 	rick, err := ioutil.ReadFile("foo.mp3")
-	foo.Value = rick
+	foo.Value, err = asn1.Marshal(rick)
+	if err != nil {
+		log.Fatalf("FATAL: %v", err)
+	}
 	template.ExtraExtensions = []pkix.Extension{foo}
 
 	if ip := net.ParseIP(host); ip != nil {
